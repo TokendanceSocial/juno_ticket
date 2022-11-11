@@ -7,11 +7,18 @@ const GANACHE_PRIVATE_KEY =
 
 module.exports = {
   solidity: "0.8.17",
+  settings: {
+    optimizer: {
+      enabled: true,
+      runs: 10,
+    },
+  },
   networks: {
     ganache: {
       url: `http://127.0.0.1:8545/`,
       accounts: [GANACHE_PRIVATE_KEY],
     },
+
     polygon: {
       url: process.env.INFURA_URL,
       accounts: [process.env.TEST_PRIVATE_KEY],
