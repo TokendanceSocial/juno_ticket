@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("hardhat-abi-exporter");
 require("dotenv").config();
 /** @type import('hardhat/config').HardhatUserConfig */
 // GANACHE_PRIVATE_KEY, it will change but I'm trying to fix this.
@@ -25,4 +26,11 @@ module.exports = {
     },
     // Make sure you have start ganache before deploy.
   },
+  abiExporter: [
+    {
+      path: "./abi/pretty",
+      pretty: true,
+    },
+  ],
+  etherscan: { apiKey: process.env.ETHERSCAN_KEY },
 };

@@ -2,9 +2,7 @@
 pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./INymph.sol";
-import "./PrivateNymph.sol";
-import "./FissionNymph.sol";
-import "./InviteNymph.sol";
+import "./Nymph.sol";
 
 contract Juno is Ownable {
     INymph[] public meetings;
@@ -29,39 +27,16 @@ contract Juno is Ownable {
         uint256 personLimit,
         uint8 templateType,
         uint value
-    ) external inWhite(msg.sender) returns (address) {
-        INymph c;
-        if (templateType == 1 || templateType == 3) {
-            c = new PrivateNymph(
-                name,
-                symbol,
-                metaInfoURL,
-                holdTime,
-                personLimit,
-                value,
-                templateType
-            );
-        } else if (templateType == 2) {
-            c = new FissionNymph(
-                name,
-                symbol,
-                metaInfoURL,
-                holdTime,
-                personLimit,
-                value,
-                templateType
-            );
-        } else if (templateType == 4) {
-            c = new InviteNymph(
-                name,
-                symbol,
-                metaInfoURL,
-                holdTime,
-                personLimit,
-                value,
-                templateType
-            );
-        }
+    ) external inWhite(msg.sender) returns (address w) {
+        INymph c = new Nymph(
+            name,
+            symbol,
+            metaInfoURL,
+            holdTime,
+            personLimit,
+            value,
+            templateType
+        );
         meetings.push(c);
         meetingHolds[msg.sender].push(address(c));
         return address(c);

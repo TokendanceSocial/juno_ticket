@@ -21,7 +21,7 @@ interface INymph is IERC721 {
     // 模版类型
     function TemplateType() external view returns (uint8);
 
-    // 邀请的人
+    // 该地址下邀请的人
     function InvitedPeople() external view returns (address[] memory);
 
     // 能否邀请

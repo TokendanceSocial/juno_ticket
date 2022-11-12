@@ -5,7 +5,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./INymph.sol";
 
 // 裂变会议，可以无限邀请，每邀请成功一人，可以获得10%返佣
-abstract contract AbstractNymph is INymph, ERC721, Ownable {
+contract Nymph is INymph, ERC721, Ownable {
+    uint8 max_invite_people = 3;
     string metaInfoURL;
     uint8 templateType;
     uint256 holdTime;
@@ -94,7 +95,26 @@ abstract contract AbstractNymph is INymph, ERC721, Ownable {
     }
 
     // 裂变的mint方法
-    function _fissionMint(address originAddress) external payable virtual;
+    function _fissionMint(address originAddress)
+        external
+        payable
+        beforeMeetingEnd
+        lessThanLimit
+        shouldHaveWhite(originAddress)
+    {
+        if (templateType == 1 || templateType == 3) {
+            require(false, "not allowed");
+        } else if (templateType == 4) {
+            require(
+                invite_people[originAddress].length < max_invite_people,
+                "invitor reach invite limit"
+            );
+        }
+        require(balanceOf(msg.sender) == 0, "already have ticket");
+        _safeMint(msg.sender, counter);
+        invite_people[originAddress].push(msg.sender);
+        counter++;
+    }
 
     // 模版类型
     function TemplateType() external view returns (uint8) {
@@ -105,7 +125,19 @@ abstract contract AbstractNymph is INymph, ERC721, Ownable {
         return invite_people[msg.sender];
     }
 
-    function CanInvite() external view virtual returns (bool);
+    function CanInvite() external view returns (bool) {
+        if (templateType == 1 || templateType == 3) {
+            return false;
+        } else if (templateType == 2) {
+            return true;
+        } else if (templateType == 4) {
+            return
+                whites_map[msg.sender] &&
+                invite_people[msg.sender].length < max_invite_people;
+        }
+        require(false, "wrong template type");
+        return false;
+    }
 
     function CanSign(address ownerAddress) external view returns (bool) {
         return balanceOf(ownerAddress) > 0 && !this.IsSign(ownerAddress);

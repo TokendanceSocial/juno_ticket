@@ -1,0 +1,7 @@
+[
+  "function HoldMeeting(string,string,string,uint8,uint256) returns (address)",
+  "function HoldingMeetings() view returns (address[])",
+  "function Holds(address) view returns (address[])",
+  "function Meetings(address) view returns (address[])",
+  "function _addTestUser(address)"
+]

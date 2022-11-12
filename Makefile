@@ -4,6 +4,7 @@ clean:
 	npx hardhat clean
 
 compile: clean
+	npx hardhat export-abi
 	npx hardhat compile
 
 test: compile

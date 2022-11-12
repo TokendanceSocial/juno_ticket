@@ -1,0 +1,13 @@
+[
+  "event OwnershipTransferred(address indexed,address indexed)",
+  "function HoldMeeting(string,string,string,uint256,uint256,uint8,uint256) returns (address)",
+  "function HoldingMeetings() view returns (address[])",
+  "function Holds(address) view returns (address[])",
+  "function Meetings(address) view returns (address[])",
+  "function _addTestUser(address)",
+  "function meetingHolds(address,uint256) view returns (address)",
+  "function meetings(uint256) view returns (address)",
+  "function owner() view returns (address)",
+  "function renounceOwnership()",
+  "function transferOwnership(address)"
+]
