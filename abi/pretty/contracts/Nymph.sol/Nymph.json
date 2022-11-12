@@ -6,6 +6,7 @@
   "event Transfer(address indexed,address indexed,uint256 indexed)",
   "function CanInvite() view returns (bool)",
   "function CanSign(address) view returns (bool)",
+  "function GetValue() view returns (uint256)",
   "function HoldTime() view returns (uint256)",
   "function InvitedPeople() view returns (address[])",
   "function IsSign(address) view returns (bool)",

@@ -29,4 +29,7 @@ interface INymph is IERC721 {
 
     // 能否签到
     function CanSign(address ownerAddress) external view returns (bool);
+
+    // 返回票价
+    function GetValue() external view returns (uint256);
 }

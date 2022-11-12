@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./INymph.sol";
 
-// 裂变会议，可以无限邀请，每邀请成功一人，可以获得10%返佣
+// The real ticket nft contract
 contract Nymph is INymph, ERC721, Ownable {
     uint8 max_invite_people = 3;
     string metaInfoURL;
@@ -141,5 +141,9 @@ contract Nymph is INymph, ERC721, Ownable {
 
     function CanSign(address ownerAddress) external view returns (bool) {
         return balanceOf(ownerAddress) > 0 && !this.IsSign(ownerAddress);
+    }
+
+    function GetValue() external view returns (uint256) {
+        return value;
     }
 }

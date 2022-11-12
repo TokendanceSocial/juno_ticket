@@ -18,3 +18,6 @@ deploy-polygon: test
 
 start-ganache:
 	ganache -s juno
+
+gen-abi:
+	npx hardhat export-abi
