@@ -1,4 +1,6 @@
 [
+  "constructor()",
+  "event NewMeeting(address,address)",
   "event OwnershipTransferred(address indexed,address indexed)",
   "function HoldMeeting(string,string,string,uint256,uint256,uint8,uint256) returns (address)",
   "function HoldingMeetings() view returns (address[])",
@@ -9,5 +11,6 @@
   "function meetings(uint256) view returns (address)",
   "function owner() view returns (address)",
   "function renounceOwnership()",
-  "function transferOwnership(address)"
+  "function transferOwnership(address)",
+  "function white(uint256) view returns (address)"
 ]

@@ -7,15 +7,22 @@ import "./Nymph.sol";
 contract Juno is Ownable {
     INymph[] public meetings;
     mapping(address => address[]) public meetingHolds;
-    address[] white;
+    address[] public white;
+
+    event NewMeeting(address, address);
 
     modifier inWhite(address holder) {
         for (uint i = 0; i < white.length; i++) {
             if (holder == white[i]) {
                 _;
+                return;
             }
         }
         require(false, "must in white");
+    }
+
+    constructor() {
+        white.push(msg.sender);
     }
 
     // 举办会议
@@ -27,8 +34,8 @@ contract Juno is Ownable {
         uint256 personLimit,
         uint8 templateType,
         uint value
-    ) external inWhite(msg.sender) returns (address w) {
-        INymph c = new Nymph(
+    ) external inWhite(msg.sender) returns (address c) {
+        Nymph n = new Nymph(
             name,
             symbol,
             metaInfoURL,
@@ -37,9 +44,11 @@ contract Juno is Ownable {
             value,
             templateType
         );
-        meetings.push(c);
-        meetingHolds[msg.sender].push(address(c));
-        return address(c);
+        c = address(n);
+        meetings.push(n);
+        meetingHolds[msg.sender].push(c);
+        emit NewMeeting(msg.sender, c);
+        return c;
     }
 
     // 某人举办的会议
