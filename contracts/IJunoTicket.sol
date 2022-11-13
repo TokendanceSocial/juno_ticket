@@ -8,6 +8,8 @@ interface IJuno {
         string calldata name,
         string calldata symbol,
         string calldata metaInfoURL,
+        uint256 holdTime,
+        uint256 personLimit,
         uint8 templateType,
         uint value
     ) external returns (address);

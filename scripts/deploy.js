@@ -4,6 +4,8 @@ const hre = require("hardhat");
 
 async function main() {
   const Contract = await hre.ethers.getContractFactory("Juno");
+  Contract.connect;
+  hre.ethers.Signer;
   const token = await Contract.deploy();
 
   await token.deployed();

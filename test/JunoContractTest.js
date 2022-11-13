@@ -30,26 +30,29 @@ describe("Juno Contract Test", () => {
     });
   });
   describe("Hold Meeting", () => {
-    const name = "name";
-    const symbol = "symbol";
-    const metaInfoURL = "ipfs://";
+    const name = "Test Meeting";
+    const symbol = "Meeting";
+    const metaInfoURL =
+      "https://bafkreibgs4psfdpf37bpdlylvv2xwouzsxjtaf4dxwy6a5hrua7okgjwui.ipfs.nftstorage.link/";
     const holdTime = 1668254237;
-    const personLimit = 2;
-    it("Hold Type 1", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
-      const tx = await juno.HoldMeeting(
+    const holdMeeting = async (contract, personLimit, templateType) => {
+      const tx = await contract.HoldMeeting(
         name,
         symbol,
         metaInfoURL,
         holdTime,
         personLimit,
-        1,
+        templateType,
         0
       );
-      const txResult = await tx.wait();
-      const event = txResult.events.find(
+      return tx.wait();
+    };
+    it("Hold Type 1", async () => {
+      const { juno, owner, address1, address2 } = await loadFixture(
+        deployJunoContract
+      );
+      const holdResult = await holdMeeting(juno, 1, 1);
+      const event = holdResult.events.find(
         (event) => event.event === "NewMeeting"
       );
       const [from, ticketAddress] = event.args;
@@ -57,6 +60,9 @@ describe("Juno Contract Test", () => {
       const tA = await juno.meetings(0);
       expect(ticketAddress).to.equal(tA);
       expect(from).to.equal(owner.address);
+
+      const meetings = await juno.Holds(owner.address);
+      expect(meetings.length).to.equal(1);
     });
   });
 });

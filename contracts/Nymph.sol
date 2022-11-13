@@ -13,6 +13,7 @@ contract Nymph is INymph, ERC721, Ownable {
     uint256 counter;
     uint256 personLimit;
     uint256 value;
+    address public juno;
     mapping(address => address[]) public invite_people;
     mapping(address => bool) public whites_map;
     mapping(address => bool) public sign_map;
@@ -42,13 +43,16 @@ contract Nymph is INymph, ERC721, Ownable {
         uint256 hT,
         uint256 pL,
         uint256 v,
-        uint8 tT
+        uint8 tT,
+        address owner
     ) ERC721(name, symbol) {
         metaInfoURL = metaInfo;
         templateType = tT;
         holdTime = hT;
         personLimit = pL;
         value = v;
+        _transferOwnership(owner);
+        juno = _msgSender();
     }
 
     function tokenURI(

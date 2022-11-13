@@ -42,7 +42,8 @@ contract Juno is Ownable {
             holdTime,
             personLimit,
             value,
-            templateType
+            templateType,
+            owner()
         );
         c = address(n);
         meetings.push(n);
