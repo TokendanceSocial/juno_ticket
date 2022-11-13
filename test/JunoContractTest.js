@@ -64,5 +64,34 @@ describe("Juno Contract Test", () => {
       const meetings = await juno.Holds(owner.address);
       expect(meetings.length).to.equal(1);
     });
+    it("Hold Type 2 And mint", async () => {
+      const { juno, owner, address1, address2 } = await loadFixture(
+        deployJunoContract
+      );
+      const holdResult = await holdMeeting(juno, 1, 2);
+      const event = holdResult.events.find(
+        (event) => event.event === "NewMeeting"
+      );
+      const [from, ticketAddress] = event.args;
+      const tA = await juno.meetings(0);
+      expect(ticketAddress).to.equal(tA);
+
+      const Nymph = await ethers.getContractFactory("Nymph");
+      const nymph = await Nymph.attach(ticketAddress);
+      const tx = await nymph._batchMint([
+        "0xd5c8A05d1CdA1caA4956D4AAaE94C6632FC19fc0",
+      ]);
+      const mintResult = await tx.wait();
+      const mintEvent = mintResult.events.find(
+        (event) => event.event === "Transfer"
+      );
+      // console.log("Mint event args", mintEvent.args);
+
+      const m = await juno.Meetings(
+        "0xd5c8A05d1CdA1caA4956D4AAaE94C6632FC19fc0"
+      );
+      expect(m.length).to.equal(1);
+      expect(m[0]).to.equal(ticketAddress);
+    });
   });
 });

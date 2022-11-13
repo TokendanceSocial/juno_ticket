@@ -19,6 +19,7 @@
   "function getApproved(uint256) view returns (address)",
   "function invite_people(address,uint256) view returns (address)",
   "function isApprovedForAll(address,address) view returns (bool)",
+  "function juno() view returns (address)",
   "function name() view returns (string)",
   "function owner() view returns (address)",
   "function ownerOf(uint256) view returns (address)",

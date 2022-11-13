@@ -3,6 +3,7 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./INymph.sol";
+import "./Juno.sol";
 
 // The real ticket nft contract
 contract Nymph is INymph, ERC721, Ownable {
@@ -19,7 +20,7 @@ contract Nymph is INymph, ERC721, Ownable {
     mapping(address => bool) public sign_map;
 
     modifier shouldHaveWhite(address origin) {
-        require(whites_map[origin] == true, "investor not in white lise");
+        require(whites_map[origin] == true, "investor not in white list");
         _;
     }
 
@@ -62,7 +63,7 @@ contract Nymph is INymph, ERC721, Ownable {
     }
 
     // 签到
-    function Sign(address ownerAddress) external beforeMeetingEnd {
+    function Sign(address ownerAddress) external onlyOwner beforeMeetingEnd {
         if (ownerAddress == address(0)) {
             ownerAddress = msg.sender;
         }
@@ -92,9 +93,8 @@ contract Nymph is INymph, ERC721, Ownable {
     {
         for (uint i = 0; i < whites.length; i++) {
             require(balanceOf(whites[i]) == 0, "already have ticket");
-            _safeMint(whites[i], counter);
             whites_map[whites[i]] = true;
-            counter++;
+            _mint(whites[i]);
         }
     }
 
@@ -115,8 +115,12 @@ contract Nymph is INymph, ERC721, Ownable {
             );
         }
         require(balanceOf(msg.sender) == 0, "already have ticket");
-        _safeMint(msg.sender, counter);
+        _mint(msg.sender);
         invite_people[originAddress].push(msg.sender);
+    }
+
+    function _mint(address d) internal {
+        _safeMint(d, counter);
         counter++;
     }
 

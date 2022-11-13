@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT-LICENSED
 pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./INymph.sol";
 import "./Nymph.sol";
 
 contract Juno is Ownable {
-    INymph[] public meetings;
+    Nymph[] public meetings;
     mapping(address => address[]) public meetingHolds;
     address[] public white;
 
@@ -58,12 +57,21 @@ contract Juno is Ownable {
     }
 
     // 某人参加的会议
+    // 后面改进
     function Meetings(address host) external view returns (address[] memory) {
-        address[] memory result;
+        uint counter = 0;
         for (uint i = 0; i < meetings.length; i++) {
-            if (meetings[i].balanceOf(host) != 0) {
+            if (meetings[i].balanceOf(host) > 0) {
+                counter++;
+            }
+        }
+        uint index = 0;
+        address[] memory result = new address[](counter);
+        for (uint i = 0; i < meetings.length; i++) {
+            if (meetings[i].balanceOf(host) > 0) {
                 address m = address(meetings[i]);
-                result[result.length] = m;
+                result[index] = m;
+                index++;
             }
         }
         return result;
