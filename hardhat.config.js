@@ -11,7 +11,7 @@ module.exports = {
   settings: {
     optimizer: {
       enabled: true,
-      runs: 10,
+      runs: 1,
     },
   },
   networks: {

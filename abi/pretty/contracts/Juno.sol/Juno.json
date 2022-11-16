@@ -1,16 +1,16 @@
 [
-  "constructor()",
+  "constructor(address)",
   "event NewMeeting(address,address)",
-  "event OwnershipTransferred(address indexed,address indexed)",
   "function HoldMeeting(string,string,string,uint256,uint256,uint8,uint256) returns (address)",
-  "function HoldingMeetings() view returns (address[])",
   "function Holds(address) view returns (address[])",
   "function Meetings(address) view returns (address[])",
   "function _addTestUser(address)",
+  "function checkUpkeep(bytes) view returns (bool, bytes)",
+  "function creator() view returns (address)",
   "function meetingHolds(address,uint256) view returns (address)",
+  "function meetingSomeoneJoined(address) view returns (address[])",
   "function meetings(uint256) view returns (address)",
   "function owner() view returns (address)",
-  "function renounceOwnership()",
-  "function transferOwnership(address)",
+  "function performUpkeep(bytes)",
   "function white(uint256) view returns (address)"
 ]

@@ -32,4 +32,10 @@ interface INymph is IERC721 {
 
     // 返回票价
     function GetValue() external view returns (uint256);
+
+    function clearCache() external;
+
+    function burnAll() external;
+
+    function getCache() external view returns (address[] memory);
 }

@@ -1,5 +1,5 @@
 [
-  "constructor(string,string,string,uint256,uint256,uint256,uint8,address)",
+  "constructor(string,string,string,uint256,uint256,uint256,uint8,address,address)",
   "event Approval(address indexed,address indexed,uint256 indexed)",
   "event ApprovalForAll(address indexed,address indexed,bool)",
   "event OwnershipTransferred(address indexed,address indexed)",
@@ -16,7 +16,10 @@
   "function _fissionMint(address) payable",
   "function approve(address,uint256)",
   "function balanceOf(address) view returns (uint256)",
+  "function burnAll()",
+  "function clearCache()",
   "function getApproved(uint256) view returns (address)",
+  "function getCache() view returns (address[])",
   "function invite_people(address,uint256) view returns (address)",
   "function isApprovedForAll(address,address) view returns (bool)",
   "function juno() view returns (address)",
@@ -31,6 +34,7 @@
   "function supportsInterface(bytes4) view returns (bool)",
   "function symbol() view returns (string)",
   "function tokenURI(uint256) view returns (string)",
+  "function token_id_map(address) view returns (uint256)",
   "function transferFrom(address,address,uint256)",
   "function transferOwnership(address)",
   "function whites_map(address) view returns (bool)"

@@ -2,11 +2,10 @@
 pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./INymph.sol";
 import "./Juno.sol";
 
 // The real ticket nft contract
-contract Nymph is INymph, ERC721, Ownable {
+contract Nymph is ERC721, Ownable {
     uint8 max_invite_people = 3;
     string metaInfoURL;
     uint8 templateType;
@@ -15,9 +14,11 @@ contract Nymph is INymph, ERC721, Ownable {
     uint256 personLimit;
     uint256 value;
     address public juno;
+    mapping(address => uint256) public token_id_map;
     mapping(address => address[]) public invite_people;
     mapping(address => bool) public whites_map;
     mapping(address => bool) public sign_map;
+    address[] cache;
 
     modifier shouldHaveWhite(address origin) {
         require(whites_map[origin] == true, "investor not in white list");
@@ -37,6 +38,11 @@ contract Nymph is INymph, ERC721, Ownable {
         _;
     }
 
+    modifier shouldJuno() {
+        require(msg.sender == juno, "only can call by juno");
+        _;
+    }
+
     constructor(
         string memory name,
         string memory symbol,
@@ -45,7 +51,8 @@ contract Nymph is INymph, ERC721, Ownable {
         uint256 pL,
         uint256 v,
         uint8 tT,
-        address owner
+        address owner,
+        address j
     ) ERC721(name, symbol) {
         metaInfoURL = metaInfo;
         templateType = tT;
@@ -53,7 +60,8 @@ contract Nymph is INymph, ERC721, Ownable {
         personLimit = pL;
         value = v;
         _transferOwnership(owner);
-        juno = _msgSender();
+        juno = j;
+        _mint(owner);
     }
 
     function tokenURI(
@@ -121,7 +129,24 @@ contract Nymph is INymph, ERC721, Ownable {
 
     function _mint(address d) internal {
         _safeMint(d, counter);
+        token_id_map[d] = counter;
         counter++;
+        cache.push(d);
+    }
+
+    function burnAll() external shouldJuno {
+        require(templateType == 3, "not secret meeting");
+        for (uint i = 0; i < counter; i++) {
+            _burn(i);
+        }
+    }
+
+    function clearCache() external shouldJuno {
+        delete cache;
+    }
+
+    function getCache() external view returns (address[] memory) {
+        return cache;
     }
 
     // 模版类型

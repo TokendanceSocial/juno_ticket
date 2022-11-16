@@ -1,0 +1,7 @@
+[
+  "constructor()",
+  "function holdMeetingProxy(string,string,string,uint256,uint256,uint8,uint256,address) returns (address)",
+  "function juno() view returns (address)",
+  "function owner() view returns (address)",
+  "function setJunoAddress(address)"
+]

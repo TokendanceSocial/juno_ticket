@@ -3,12 +3,20 @@
 const hre = require("hardhat");
 
 async function main() {
-  const Contract = await hre.ethers.getContractFactory("Juno");
-  const token = await Contract.deploy();
+  const Creator = await ethers.getContractFactory("Creator");
+  const creator = await Creator.deploy();
+  await creator.deployed();
+  console.log("Creator deploy success:", creator.address);
 
-  await token.deployed();
+  const Juno = await hre.ethers.getContractFactory("Juno");
+  const juno = await Juno.deploy(creator.address);
+  await juno.deployed();
 
-  console.log("成功部署合约:", token.address);
+  console.log("Juno deploy success:", juno.address);
+
+  const tx = await creator.setJunoAddress(juno.address);
+  await tx.wait();
+  console.log("set creator juno address success");
 }
 
 // 运行脚本
