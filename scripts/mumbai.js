@@ -1,26 +1,27 @@
 const hre = require("hardhat");
 
-const junoAddr = "0x38844C8e1b4B3D1510cf65A1653AD268EE7a71dd";
+const junoAddr = "0x940621EB884cCB3dF832dCCd5190a2BfF2Ccb5Ae";
 
-const nymphContract = "0x71360528ebc97afea9f348fef3d39318749ff769";
+const nymphContract = "0x1E34fd5C95f2e57aacf0B9c262cBfdD4dbBA0642";
 async function main() {
   const Contract = await hre.ethers.getContractFactory("Juno");
   const juno = await Contract.attach(junoAddr);
 
   const NymphContract = await hre.ethers.getContractFactory("Nymph");
   const nymph = await NymphContract.attach(nymphContract);
+  console.log("can invite", await nymph.TemplateType());
   // holdMeeting(juno);
-  const c = await nymph.getCache();
-  console.log(c);
+  // const c = await nymph.getCache();
+  // console.log(c);
   // addUser(juno);
   // batchMint(nymph);
   // console.log(
   //   "Meetings",
-  //   await juno.Meetings("0x7e18Dd1f297C6B407feDd14B96ebe7343508E24e")
+  //   await juno.Meetings("0xd5c8a05d1cda1caa4956d4aaae94c6632fc19fc0")
   // );
   // console.log(
   //   "Holds",
-  //   await juno.Holds("0x7B8dC096Ec0D870F053d1d1666b6D212A2144507")
+  //   await juno.Holds("0xd5c8a05d1cda1caa4956d4aaae94c6632fc19fc0")
   // );
   // console.log(
   //   "IsSign",
@@ -42,7 +43,8 @@ async function transferOwner(nymph) {
 async function batchMint(nymph) {
   const tx = await nymph._batchMint([
     // "0xd5c8A05d1CdA1caA4956D4AAaE94C6632FC19fc0",
-    "0x7e18Dd1f297C6B407feDd14B96ebe7343508E24e",
+    "0x7e18Dd1f297C6B407feDd14B96ebe7343508E24e", // 阿布
+    // "0x5254D72BB5604D0Ddc916ed7A45306ca88f9DeCB", // 维涛
   ]);
   const holdResult = await tx.wait();
   const event = holdResult.events.find((event) => event.event === "Transfer");
@@ -58,8 +60,8 @@ async function metaData(nymph) {
 }
 
 async function holdMeeting(juno) {
-  const name = "Tokendance测试会议01 - Creator阿布";
-  const symbol = "Meeting";
+  const name = "Tokendance Shanghai";
+  const symbol = "TSH";
   const metaInfoURL =
     "https://bafkreibgs4psfdpf37bpdlylvv2xwouzsxjtaf4dxwy6a5hrua7okgjwui.ipfs.nftstorage.link/";
   const holdTime = Math.floor(Date.now() / 1000) + 24 * 60 * 60;
@@ -80,7 +82,7 @@ async function holdMeeting(juno) {
 
 async function addUser(juno) {
   const tx = await juno._addTestUser(
-    "0x7B8dC096Ec0D870F053d1d1666b6D212A2144507"
+    "0x8d747Fc7460816c09D20E9f5e7715006A5Db10df"
   );
   console.log(await tx.wait());
 }

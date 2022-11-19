@@ -62,6 +62,7 @@ contract Nymph is ERC721, Ownable {
         _transferOwnership(owner);
         juno = j;
         _mint(owner);
+        whites_map[owner] = true;
     }
 
     function tokenURI(
