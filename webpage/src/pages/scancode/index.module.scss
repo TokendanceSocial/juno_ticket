@@ -1,0 +1,97 @@
+.container {
+    background-color:  #000000;
+    padding: 0px 23px;
+    height: 100vh;
+    .header {
+      padding-top: 52px;
+      display: flex;
+      color: aliceblue;
+      img {
+        margin-right: 26px;
+      }
+      h1 {
+        margin: 0px;
+      }
+      p {
+        opacity: 0.5;
+        word-wrap: break-word;
+      }
+    }
+    .meetInfo {
+      margin-top: 20px;
+      background: #1F2930;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 13px 22px;
+      .infoItem {
+        display: flex;
+        align-items: center;
+        label {
+          color: #A6A6A6;
+          display: flex;
+          margin-right: 36px;
+          align-items: center;
+          opacity: 0.5;
+          img {
+            margin-right: 11px;
+          }
+        }
+        span {
+          color: #A6A6A6;
+        }
+      }
+    }
+    .line {
+      height: 1px;
+      width: 100%;
+      margin: 32px 0px;
+      background: linear-gradient(90deg, #6AEDFF 0%, rgba(115, 162, 255, 0.573355) 42.66%, #3AE2A6 66.62%, #AC3AE2 100%);
+      border-radius: 2.5px;
+      transform: matrix(1, 0, 0, -1, 0, 0);
+    }
+    .tokenInfo {
+      display: flex;
+      flex-direction: column;
+      padding: 0px 62px;
+      p {
+        display: flex;
+        margin: 7px 0px;
+        label {
+          display: block;
+          width: 105px;
+          margin-right: 22px;
+          color: #FFFFFF;
+          opacity: 0.5;
+        }
+        span {
+          color: #FFFFFF;
+        }
+      }
+    }
+    .invite {
+      display: flex;
+      justify-content: center;
+      margin:  34px 0px;
+      .add {
+        width: 181px;
+        height: 50px;
+        left: calc(50% - 181px/2);
+        top: calc(50% - 50px/2);
+        
+        // background: url(image.png);
+        box-shadow: inset 0px 4.36364px 5.45455px rgba(255, 255, 255, 0.6);
+        filter: drop-shadow(0px 4.36364px 4.36364px rgba(0, 0, 0, 0.25));
+        border-radius: 8.72727px;
+      }
+    }
+    .tip {
+      color: #FFFFFF;
+      width: 206px;
+      opacity: 0.5;
+      margin-top: 10px;
+      padding-bottom: 46px;
+      margin: auto;
+    }
+  }

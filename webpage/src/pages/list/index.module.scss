@@ -1,0 +1,53 @@
+.container {
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
+    background: #001419;
+    background-image: url('../../assert/bg-ticket.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-bottom: 50px;
+    padding-top: 35px;
+
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 50px;
+
+        .avatar {
+            display: flex;
+            height: 105px;
+            position: relative;
+            width: 105px;
+
+            img {
+                position: absolute;
+
+                &:nth-child(2) {
+                    left: 15px;
+                    top: 10px;
+                }
+            }
+        }
+
+        .address {
+            margin-top: 15px;
+            background: rgba(86, 169, 249, 0.2);
+            padding: 2px 20px;
+            width: 105px;
+            height: 24px;
+            font-family: 'PingFang SC';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            color: #FFFFFF;
+            border-radius: 20px;
+        }
+    }
+}

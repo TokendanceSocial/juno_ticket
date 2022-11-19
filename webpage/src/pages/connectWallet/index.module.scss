@@ -1,0 +1,88 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    background: #001419;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.connectContainer {
+    box-sizing: border-box;
+    width: 315px;
+    height: 426px;
+    background: linear-gradient(54.53deg, rgba(25, 135, 255, 0.05) 11.69%, rgba(16, 163, 242, 0.03) 94.37%);
+    backdrop-filter: blur(25px);
+    border-radius: 38px;
+    background-image: url('../../assert/bg-personal.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+        margin-top: 16px;
+        width: 190px;
+        height: 39px;
+        font-family: 'Inter';
+        font-style: italic;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 38px;
+        color: #FFFFFF;
+    }
+
+    .avatarWrapper {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .avatar {
+            width: 126px;
+            height: 126px;
+            border-radius: 50%;
+            background: #EBF0FE;
+        }
+
+        .description {
+            margin-top: 14px;
+            width: 169px;
+            height: 24px;
+            font-family: 'PingFang SC';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+    }
+
+
+
+    .horizon {
+        width: 228.14px;
+        height: 0px;
+        opacity: 0.2;
+        border: 0.5px solid #9FC9F7;
+    }
+
+    .connectTxt {
+        width: 169px;
+        height: 24px;
+        font-family: 'PingFang SC';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: #FFFFFF;
+        opacity: 0.6;
+        margin-top: 15px;
+        margin-bottom: 23px;
+    }
+}

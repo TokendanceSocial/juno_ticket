@@ -1,0 +1,47 @@
+.container {
+  background-color:  #000000;
+  padding: 0px 23px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .header {
+    padding-top: 52px;
+    display: flex;
+    color: aliceblue;
+    justify-content: center;
+    .avatar {
+      display: flex;
+      height: 105px;
+      position: relative;
+      width: 105px;
+      img {
+        position: absolute;
+        &:nth-child(2) {
+          left: 20px;
+          top: 10px;
+        }
+      }
+    }
+  }
+  .address {
+    width: 145px;
+    height: 28px;
+    color: #FFFFFF;
+    background: rgba(86, 169, 249, 0.2);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 100px;
+  }
+  .tip {
+    color: #FFFFFF;
+    width: 206px;
+    opacity: 0.5;
+    margin-top: 10px;
+    padding-bottom: 46px;
+    margin: auto;
+  }
+}

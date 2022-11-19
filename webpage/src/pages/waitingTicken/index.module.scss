@@ -1,0 +1,43 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    background: #001419;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../assert/bg-ticket.png');
+    background-image: url('../../assert/bg-cord.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+
+    .title {
+        position: absolute;
+        top: 5%;
+        text-align: center;
+        width: 210px;
+        height: 38px;
+        font-family: 'Inter';
+        font-style: italic;
+        font-weight: 800;
+        font-size: 31px;
+        line-height: 38px;
+        color: linear-gradient(95.51deg, #3E89DF 6.79%, #FFFFFF 47.3%, #F14EFF 98.05%);
+        background-clip: text;
+        text-fill-color: transparent;
+        color: #FFFBFF;
+    }
+}
+
+.connectContainer {
+    width: 228px;
+    height: 39px;
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 38px;
+    color: #FFFBFF;
+}
