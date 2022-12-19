@@ -6,35 +6,40 @@ const {
 const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 const { expect } = require("chai");
 
-describe("Juno Contract Test", () => {
-  const deployJunoContract = async () => {
-    const [owner, address1, address2] = await ethers.getSigners();
-    const Creator = await ethers.getContractFactory("Creator");
-    const creator = await Creator.deploy();
-    const Juno = await ethers.getContractFactory("Juno");
-    const juno = await Juno.deploy(creator.address);
+const deployJunoContract = async () => {
+  const [owner, address1, address2] = await ethers.getSigners();
+  const Creator = await ethers.getContractFactory("Creator");
+  const creator = await Creator.deploy();
+  const Juno = await ethers.getContractFactory("Juno");
+  const juno = await Juno.deploy(creator.address);
 
-    const set = await creator.setJunoAddress(juno.address);
-    await set.wait();
-    return { juno, owner, address1, address2, creator };
-  };
+  const set = await creator.setJunoAddress(juno.address);
+  await set.wait();
+  return { juno, owner, address1, address2, creator };
+};
+module.exports = { deployJunoContract };
+describe("Juno Contract Test", () => {
+  let juno;
+  let owner;
+  let address1;
+  let creator;
+  beforeEach(async () => {
+    let result = await loadFixture(deployJunoContract);
+    juno = result.juno;
+    owner = result.owner;
+    address1 = result.address1;
+    creator = result.creator;
+  });
   describe("合约部署", () => {
     it("should have proper address", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
       const ContractAddress = await juno.address;
       expect(ContractAddress).to.properAddress;
     });
     it("check owner", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
       const addr = await juno.owner();
       expect(addr).equal(owner.address);
     });
     it("creator", async () => {
-      const { juno, creator } = await loadFixture(deployJunoContract);
       const addr = await juno.creator();
       expect(addr).to.equal(creator.address);
       expect(await creator.juno()).to.equal(juno.address);
@@ -74,9 +79,6 @@ describe("Juno Contract Test", () => {
       return nymph;
     };
     it("Hold Type 1", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
       const ticketAddress = await holdMeeting(juno, 2, 1);
       const tA = await juno.meetings(0);
       expect(ticketAddress).to.equal(tA);
@@ -85,9 +87,6 @@ describe("Juno Contract Test", () => {
       expect(meetings.length).to.equal(1);
     });
     it("Hold Type 2 And mint", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
       const ticketAddress = await holdMeeting(juno, 2, 1);
       const tA = await juno.meetings(0);
       expect(ticketAddress).to.equal(tA);
@@ -107,18 +106,12 @@ describe("Juno Contract Test", () => {
       expect(m[0]).to.equal(ticketAddress);
     });
     it("Check cache", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
       const ticketAddress = await holdMeeting(juno, 2, 1);
       const nymph = await getNymph(ticketAddress);
       const cache = await nymph.getCache();
       expect(cache.length).to.equal(1);
     });
     it("clear cache", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
       const ticketAddress = await holdMeeting(juno, 2, 1);
       const nymph = await getNymph(ticketAddress);
       const tx = await juno.performUpkeep(
@@ -129,9 +122,6 @@ describe("Juno Contract Test", () => {
       expect(cache.length).to.equal(0);
     });
     it("flush nymph cache to juno", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
       const ticketAddress = await holdMeeting(juno, 2, 1);
       const nymph = await getNymph(ticketAddress);
       const tx = await juno.performUpkeep(
@@ -145,9 +135,6 @@ describe("Juno Contract Test", () => {
       expect(meetings[0]).to.equal(ticketAddress);
     });
     it("burn secret", async () => {
-      const { juno, owner, address1, address2 } = await loadFixture(
-        deployJunoContract
-      );
       const ticketAddress = await holdMeeting(juno, 2, 3);
       const nymph = await getNymph(ticketAddress);
       expect(await nymph.balanceOf(owner.address)).to.equal(1);

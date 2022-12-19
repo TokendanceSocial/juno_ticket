@@ -7,20 +7,15 @@ import "@chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.s
 contract Juno {
     INymph[] public meetings;
     mapping(address => address[]) public meetingHolds;
-    address[] public white;
+    mapping(address => bool) public white;
     mapping(address => address[]) peopleJoins;
     address public owner;
     ICreator public creator;
 
     event NewMeeting(address, address);
     modifier inWhite(address holder) {
-        for (uint i = 0; i < white.length; i++) {
-            if (holder == white[i]) {
-                _;
-                return;
-            }
-        }
-        require(false, "must in white");
+        require(white[holder], "must in white");
+        _;
     }
 
     modifier onlyOwner() {
@@ -29,7 +24,7 @@ contract Juno {
     }
 
     constructor(address nymphCreator) {
-        white.push(msg.sender);
+        white[msg.sender] = true;
         owner = msg.sender;
         creator = ICreator(nymphCreator);
     }
@@ -43,7 +38,7 @@ contract Juno {
         uint256 personLimit,
         uint8 templateType,
         uint value
-    ) external inWhite(msg.sender) returns (address c) {
+    ) external returns (address c) {
         require(
             templateType >= 1 && templateType <= 4,
             "template type invalid"
@@ -84,9 +79,7 @@ contract Juno {
     }
 
     // @dev this method is called by the Automation Nodes. it increases all elements which balances are lower than the LIMIT
-    function performUpkeep(
-        bytes calldata /* performData */
-    ) external {
+    function performUpkeep(bytes calldata /* performData */) external {
         for (uint i = 0; i < meetings.length; i++) {
             if (
                 meetings[i].TemplateType() == 3 &&
@@ -112,13 +105,16 @@ contract Juno {
         }
     }
 
+    function isInWhite(address host) external view returns (bool) {
+        return white[host];
+    }
+
     // 某人举办的会议
     function Holds(address host) external view returns (address[] memory) {
         return meetingHolds[host];
     }
 
     // 某人参加的会议
-    // 后面改进
     function Meetings(address host) external view returns (address[] memory) {
         uint counter = 0;
         for (uint i = 0; i < meetings.length; i++) {
@@ -152,14 +148,12 @@ contract Juno {
 
     // 添加白名单用户
     function _addTestUser(address n) external onlyOwner {
-        white.push(n);
+        white[n] = true;
     }
 
-    function meetingSomeoneJoined(address n)
-        external
-        view
-        returns (address[] memory)
-    {
+    function meetingSomeoneJoined(
+        address n
+    ) external view returns (address[] memory) {
         return peopleJoins[n];
     }
 }

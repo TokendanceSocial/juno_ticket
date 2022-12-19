@@ -7,10 +7,11 @@
   "function _addTestUser(address)",
   "function checkUpkeep(bytes) view returns (bool, bytes)",
   "function creator() view returns (address)",
+  "function isInWhite(address) view returns (bool)",
   "function meetingHolds(address,uint256) view returns (address)",
   "function meetingSomeoneJoined(address) view returns (address[])",
   "function meetings(uint256) view returns (address)",
   "function owner() view returns (address)",
   "function performUpkeep(bytes)",
-  "function white(uint256) view returns (address)"
+  "function white(address) view returns (bool)"
 ]

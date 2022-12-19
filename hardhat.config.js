@@ -11,7 +11,7 @@ module.exports = {
   settings: {
     optimizer: {
       enabled: true,
-      runs: 1,
+      runs: 200,
     },
   },
   networks: {
@@ -23,6 +23,10 @@ module.exports = {
     polygon: {
       url: process.env.INFURA_URL,
       accounts: [process.env.TEST_PRIVATE_KEY],
+    },
+    plugchain: {
+      url: `http://124.248.67.122:8545`,
+      accounts: [process.env.PLUG_PRIVATE_KEY],
     },
     // Make sure you have start ganache before deploy.
   },

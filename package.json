@@ -15,7 +15,9 @@
   "license": "ISC",
   "dependencies": {
     "@chainlink/contracts": "^0.5.1",
-    "dotenv": "^16.0.3"
+    "bech32": "^2.0.0",
+    "dotenv": "^16.0.3",
+    "web3-utils": "^1.8.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.4",

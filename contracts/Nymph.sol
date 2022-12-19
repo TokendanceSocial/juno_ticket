@@ -2,10 +2,11 @@
 pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Juno.sol";
 
 // The real ticket nft contract
 contract Nymph is ERC721, Ownable {
+    event Signed(address);
+
     uint8 max_invite_people = 3;
     string metaInfoURL;
     uint8 templateType;
@@ -13,12 +14,18 @@ contract Nymph is ERC721, Ownable {
     uint256 counter;
     uint256 personLimit;
     uint256 value;
-    address public juno;
+    address juno;
     mapping(address => uint256) public token_id_map;
     mapping(address => address[]) public invite_people;
     mapping(address => bool) public whites_map;
     mapping(address => bool) public sign_map;
+    mapping(address => bool) private sign_man;
     address[] cache;
+
+    modifier onlySigner() {
+        require(sign_man[msg.sender], "can not sign");
+        _;
+    }
 
     modifier shouldHaveWhite(address origin) {
         require(whites_map[origin] == true, "investor not in white list");
@@ -35,11 +42,6 @@ contract Nymph is ERC721, Ownable {
 
     modifier lessThanLimit() {
         require(counter < personLimit, "hit invite person limit");
-        _;
-    }
-
-    modifier shouldJuno() {
-        require(msg.sender == juno, "only can call by juno");
         _;
     }
 
@@ -63,6 +65,7 @@ contract Nymph is ERC721, Ownable {
         juno = j;
         _mint(owner);
         whites_map[owner] = true;
+        sign_man[owner] = true;
     }
 
     function tokenURI(
@@ -71,12 +74,18 @@ contract Nymph is ERC721, Ownable {
         return metaInfoURL;
     }
 
+    function tokenIdOf(address owner) external view returns (uint256) {
+        require(balanceOf(owner) > 0, "have no ticket");
+        return token_id_map[owner];
+    }
+
     // 签到
-    function Sign(address ownerAddress) external onlyOwner beforeMeetingEnd {
+    function Sign(address ownerAddress) external onlySigner beforeMeetingEnd {
         if (ownerAddress == address(0)) {
             ownerAddress = msg.sender;
         }
         sign_map[ownerAddress] = true;
+        emit Signed(ownerAddress);
     }
 
     // 是否签到
@@ -93,13 +102,9 @@ contract Nymph is ERC721, Ownable {
     }
 
     // 主办方批量给白名单用户mint
-    function _batchMint(address[] calldata whites)
-        external
-        payable
-        beforeMeetingEnd
-        lessThanLimit
-        onlyOwner
-    {
+    function _batchMint(
+        address[] calldata whites
+    ) external payable beforeMeetingEnd lessThanLimit onlyOwner {
         for (uint i = 0; i < whites.length; i++) {
             require(balanceOf(whites[i]) == 0, "already have ticket");
             whites_map[whites[i]] = true;
@@ -108,7 +113,9 @@ contract Nymph is ERC721, Ownable {
     }
 
     // 裂变的mint方法
-    function _fissionMint(address originAddress)
+    function _fissionMint(
+        address originAddress
+    )
         external
         payable
         beforeMeetingEnd
@@ -135,14 +142,14 @@ contract Nymph is ERC721, Ownable {
         cache.push(d);
     }
 
-    function burnAll() external shouldJuno {
+    function burnAll() external {
         require(templateType == 3, "not secret meeting");
         for (uint i = 0; i < counter; i++) {
             _burn(i);
         }
     }
 
-    function clearCache() external shouldJuno {
+    function clearCache() external {
         delete cache;
     }
 
@@ -177,7 +184,12 @@ contract Nymph is ERC721, Ownable {
         return balanceOf(ownerAddress) > 0 && !this.IsSign(ownerAddress);
     }
 
-    function GetValue() external view returns (uint256) {
-        return value;
+    function AddSignMan(address signAddr) external onlyOwner {
+        require(!sign_man[signAddr], "sign address has registered");
+        sign_man[signAddr] = true;
+    }
+
+    function isSignMan(address signAddr) external view returns (bool) {
+        return sign_man[signAddr];
     }
 }
